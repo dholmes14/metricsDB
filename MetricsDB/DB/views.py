@@ -16,13 +16,18 @@ import csv
 
 def Homepage(request):
     search_term = ''
+    DateSearchQuery = ''
     if 'search' in request.GET:
         search_term = request.GET['search']
         NextSeq_Data = Nextseq_Metrics.objects.filter(Project_No__icontains=search_term)
+    elif 'date_search' in request.GET:
+        DateSearchQuery= request.GET['date_search']
+        NextSeq_Data = Nextseq_Metrics.objects.filter(run_start_date__icontains=DateSearchQuery)
+
     else:
         NextSeq_Data = Nextseq_Metrics.objects.all()
 
-    return render(request, 'DB/homepage.html', {'NextSeq_Data' : NextSeq_Data, 'search_term': search_term })
+    return render(request, 'DB/homepage.html', {'NextSeq_Data' : NextSeq_Data, 'search_term': search_term, 'DateSearchQuery': DateSearchQuery })
 
 def Variantpage(request, variant_id):
 
@@ -114,20 +119,3 @@ def Bulkinputpage(request):
 
     )
     return render(request, 'DB/bulkinputpage.html')
-
-
-
-class SearchView(ListView):
-    model = Variant_data
-    template_name = 'homepage.html'
-    context_object_name = 'all_search_results'
-
-    def get_queryset(self):
-       result = super(SearchView, self).get_queryset()
-       query = self.request.GET.get('search')
-       if query:
-          postresult = Variant_data.objects.filter(title__contains=query)
-          result = postresult
-       else:
-           result = None
-       return result

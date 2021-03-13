@@ -3,17 +3,27 @@
 {% load render_table from django_tables2 %}
 {% block content %}
 
-<h2>Search for variants by gene</h2>
+<h2>Search for a project by name or date</h2>
 <br>
-<p>Search for variants in a particular gene by typing the relevant gene in the search box and then click the "search for a gene" button.</p>
+<p>Search for a projet name or date by typing in the search box and then click the search button.</p>
 
 <form class="SearchView" method="GET" action="" >
     <input class="SearchView" type="search" name="search">
-    <button class="SearchView" type="submit"> Search for a gene </button>
+    <button class="SearchView" type="submit"> Search for a project </button>
 </form>
 <form class="ResetSearch" method="GET" action="" >
     <button class="ResetSearch" type="submit"> Reset search </button>
 </form>
+
+<form class="DateSearchBox" method="GET" action="" >
+    <input class="DateSearchBox" type="date_search" name="date_search">
+    <button class="DateSearchBox" type="submit"> Search for a date </button>
+</form>
+<form class="ResetSearch" method="GET" action="" >
+    <button class="ResetSearch" type="submit"> Reset search </button>
+</form>
+
+
 
     <div class="table-responsive">
     <table class="table table-hover">
