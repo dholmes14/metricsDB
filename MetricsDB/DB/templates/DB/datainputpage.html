@@ -1,0 +1,15 @@
+{% extends 'DB/base.html' %}
+{% block content %}
+<h2>Manual data entry form</h2>
+<br>
+<p>Data for a single entry can be added below</p>
+<br>
+<hr>
+
+<form action="/datainput/" method="post">
+    {% csrf_token %}
+    <table>{{ form.as_table }}</table>
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
