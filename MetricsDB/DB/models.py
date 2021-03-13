@@ -26,8 +26,8 @@ class Nextseq_Metrics(models.Model):
 class HS_Metrics(models.Model):
     HS_Metrics_id=models.AutoField(primary_key=True, null=False)
     Sample = models.CharField(max_length=200, db_column='SAMPLE')
-    sample_type=models.CharField(max_length=200, db_column='sample type')
-    QN_ratio=models.CharField(max_length=200, db_column='Q:N ratio')
+    sample_type=models.CharField(max_length=200, db_column='sample type', blank=True)
+    QN_ratio=models.CharField(max_length=200, db_column='Q:N ratio', blank=True)
     sequencing_project=models.CharField(max_length=200, db_column='SEQUENCING PROJECT(S) - orange shading = merged data')
     platform=models.CharField(max_length=200, db_column='Platform')
     rundate=models.CharField(max_length=200, db_column='DATE')
