@@ -4,6 +4,24 @@ from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
+class Nextseq_Metrics(models.Model):
+    Project_No= models.CharField(max_length=200)
+    description= models.CharField(max_length=200)
+    run_start_date= models.CharField(max_length=200)
+    run_ID= models.CharField(max_length=200)
+    instrument= models.CharField(max_length=200)
+    run_type= models.CharField(max_length=200)
+    flowcell= models.CharField(max_length=200)
+    mean_cluster_density= models.FloatField(db_column='mean_cluster_density_(k/mm2)')
+    clusters_PF= models.FloatField(db_column='%_clusters_PF')
+    RT_yield_GB= models.FloatField(db_column='real-time_yield_(Gb)')
+    indexed_reads= models.FloatField(db_column='indexed_reads_PF_(M)')
+    demux_yield_GB= models.FloatField(db_column='yield_(Gb)')
+    bases_Q30= models.FloatField(db_column='%_bases_>Q30')
+    raw_demux_yield_ratio= models.FloatField(db_column='raw:demux_yield_ratio')
+    Pass_fail= models.CharField(max_length=200)
+    Notes= models.CharField(max_length=300)
+
 class Patient_data(models.Model):
     patient_id = models.AutoField(primary_key=True, null=False)
     name = models.CharField(max_length=200, name='name')
