@@ -1,0 +1,28 @@
+{% extends 'DB/base.html' %}
+{% block content %}
+
+<div class="table-responsive">
+<table class="table table-hover">
+<thead>
+<tr><th>Project_No</th><td>{{Project.Project_No}}</td></tr>
+<tr><th>description</th><td>{{Project.description}}</td></tr>
+<tr><th>run_start_date</th><td>{{Project.run_start_date}}</td></tr>
+<tr><th>run_ID</th><td>{{Project.run_ID}}</td></tr>
+<tr><th>instrument</th><td>{{Project.instrument}}</td></tr>
+<tr><th>run_type</th><td>{{Project.run_type}}</td></tr>
+<tr><th>flowcell</th><td>{{Project.flowcell}}</td></tr>
+<tr><th>mean_cluster_density</th><td>{{Project.mean_cluster_density}}</td></tr>
+<tr><th>clusters_PF</th><td>{{Project.clusters_PF}}</td></tr>
+<tr><th>RT_yield_GB</th><td>{{Project.RT_yield_GB}}</td></tr>
+<tr><th>indexed_reads</th><td>{{Project.indexed_reads}}</td></tr>
+<tr><th>demux_yield_GB</th><td>{{Project.demux_yield_GB}}</td></tr>
+<tr><th>bases_Q30</th><td>{{Project.bases_Q30}}</td></tr>
+<tr><th>raw_demux_yield_ratio</th><td>{{Project.raw_demux_yield_ratio}}</td></tr>
+<tr><th>Pass_fail</th><td>{{Project.Pass_fail}}</td></tr>
+<tr><th>Notes</th><td>{{Project.Notes}}</td></tr>
+</thead>
+</table>
+</div>
+
+
+{% endblock %}
