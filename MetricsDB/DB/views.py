@@ -43,8 +43,8 @@ def Variantpage(request, variant_id):
 
     return render(request, 'DB/variantpage.html', context)
 
-def Projectpage(request, nextseq_project_id):
-    Project = get_object_or_404(Nextseq_Metrics, nextseq_project_id=nextseq_project_id)
+def Projectpage(request, Project_No):
+    Project = get_object_or_404(Nextseq_Metrics, Project_No=Project_No)
 
     context = {
     'Project': Project

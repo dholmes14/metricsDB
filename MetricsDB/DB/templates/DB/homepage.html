@@ -38,7 +38,7 @@
 
         {% for Project in NextSeq_Data %}
             <tr>
-              <td><a href="/projects/{{Project.nextseq_project_id}}/">{{ Project.Project_No | truncatechars:20 }}</td>
+              <td><a href="/projects/{{Project.Project_No}}/">{{ Project.Project_No | truncatechars:20 }}</td>
               <td>{{Project.description}}</td>
               <td>{{Project.run_start_date}}</td>
               <td>{{Project.instrument}}</td>
