@@ -19,20 +19,19 @@
     <table class="table table-hover">
 		<thead>
 		    <tr>
-          <th>Gene</th>
-          <th>Variant</th>
-		      <th>cDNA HGVS</th>
-		      <th>Protein HGVS</th>
+          <th>Project No</th>
+          <th>Description</th>
+		      <th>Run start date</th>
+		      <th>Sequencer</th>
 		    </tr>
 		</thead>
 
-        {% for Variant in Variants %}
+        {% for Project in NextSeq_Data %}
             <tr>
-              <td>{{Variant.gene}}</td>
-              <td><a href="/variants/{{Variant.variant_id}}/">{{ Variant.variant_genome | truncatechars:20 }}</td>
-              <td>{{ Variant.variant_cdna | truncatechars:20 }}</td>
-              <td>{{ Variant.variant_protein | truncatechars:20 }}</td>
-
+              <td>{{Project.Project_No}}</td>
+              <td>{{Project.description}}</td>
+              <td>{{Project.run_start_date}}</td>
+              <td>{{Project.instrument}}</td>
             </tr>
         {% endfor %}
         </table>

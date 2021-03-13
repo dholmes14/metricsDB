@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class Nextseq_Metrics(models.Model):
-    nextseq_projet_id=models.AutoField(primary_key=True, null=False)
+    nextseq_project_id=models.AutoField(primary_key=True, null=False)
     Project_No= models.CharField(max_length=200)
     description= models.CharField(max_length=200)
     run_start_date= models.CharField(max_length=200)
@@ -13,14 +13,14 @@ class Nextseq_Metrics(models.Model):
     instrument= models.CharField(max_length=200)
     run_type= models.CharField(max_length=200)
     flowcell= models.CharField(max_length=200)
-    mean_cluster_density= models.FloatField(db_column='mean_cluster_density_(k/mm2)')
-    clusters_PF= models.FloatField(db_column='percentage_clusters_PF')
-    RT_yield_GB= models.FloatField(db_column='real-time_yield_(Gb)')
-    indexed_reads= models.FloatField(db_column='indexed_reads_PF_(M)')
-    demux_yield_GB= models.FloatField(db_column='yield_(Gb)')
-    bases_Q30= models.FloatField(db_column='percentage_bases_>Q30')
-    raw_demux_yield_ratio= models.FloatField(db_column='raw:demux_yield_ratio')
-    Pass_fail= models.CharField(max_length=200)
+    mean_cluster_density= models.FloatField(db_column='mean_cluster_density_(k/mm2)', blank=True)
+    clusters_PF= models.FloatField(db_column='percentage_clusters_PF', blank=True)
+    RT_yield_GB= models.FloatField(db_column='real-time_yield_(Gb)', blank=True)
+    indexed_reads= models.FloatField(db_column='indexed_reads_PF_(M)', blank=True)
+    demux_yield_GB= models.FloatField(db_column='yield_(Gb)', blank=True)
+    bases_Q30= models.FloatField(db_column='percentage_bases_>Q30', blank=True)
+    raw_demux_yield_ratio= models.FloatField(db_column='raw:demux_yield_ratio', blank=True)
+    Pass_fail= models.CharField(max_length=200, blank=True)
     Notes= models.CharField(max_length=300, blank=True)
 
 class Patient_data(models.Model):

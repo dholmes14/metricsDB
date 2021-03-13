@@ -2,7 +2,7 @@ import datetime
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import InputForm
-from .models import Patient_data, Variant_data, Test_data, Interpretation_data
+from .models import Patient_data, Variant_data, Test_data, Interpretation_data, Nextseq_Metrics
 from django.shortcuts import render
 from django.views.generic import ListView
 from crispy_forms.bootstrap import Field
@@ -18,11 +18,11 @@ def Homepage(request):
     search_term = ''
     if 'search' in request.GET:
         search_term = request.GET['search']
-        Variants = Variant_data.objects.filter(gene__icontains=search_term)
+        NextSeq_Data = Nextseq_Metrics.objects.filter(Project_No__icontains=search_term)
     else:
-        Variants = Variant_data.objects.all()
+        NextSeq_Data = Nextseq_Metrics.objects.all()
 
-    return render(request, 'DB/homepage.html', {'Variants' : Variants, 'search_term': search_term })
+    return render(request, 'DB/homepage.html', {'NextSeq_Data' : NextSeq_Data, 'search_term': search_term })
 
 def Variantpage(request, variant_id):
 
@@ -94,36 +94,25 @@ def Bulkinputpage(request):
         for row in reader:
             print(row)
 
-            patient, creation = Patient_data.objects.get_or_create(
-            name = row['Name'],
-            age = row['Age'],
-            proband = str(row['Proband']).replace("Y","True").replace("N", "False"),
-            affected_relatives = str(row['Affected Relatives']).replace("Y","True").replace("N", "False"),
-            stage = row['Stage'],
-            description = row['Description']
-            )
+            project, creation = Nextseq_Metrics.objects.get_or_create(
+            Project_No = row['Project_No'],
+            description= row['description'],
+            run_start_date= row['run_start_date'],
+            run_ID= row['run_ID'],
+            instrument= row['instrument'],
+            run_type= row['run_type'],
+            flowcell= row['flowcell'],
+            mean_cluster_density= row['mean_cluster_density_(k/mm2)'],
+            clusters_PF= row['percentage_clusters_PF'],
+            RT_yield_GB= row['real-time_yield_(Gb)'],
+            indexed_reads= row['indexed_reads_PF_(M)'],
+            demux_yield_GB= row['demux_yield_(Gb)'],
+            bases_Q30= row['percentage_bases_>Q30'],
+            raw_demux_yield_ratio= row['raw:demux_yield_ratio'],
+            Pass_fail= row['Pass/fail'],
+            Notes= row['Notes']
 
-            variant, creation = Variant_data.objects.get_or_create(
-            variant_cdna = row['Variant cDNA'],
-            variant_protein = row['Variant Protein'],
-            variant_genome = row['Variant Genome']
-            )
-
-            test, creation = Test_data.objects.get_or_create(
-            patient_id = patient,
-            sequencer = row['Sequencer'],
-            variant_id = variant,
-            uploaded_time = datetime.datetime.now()
-            )
-
-            interpretation, creation = Interpretation_data.objects.get_or_create(
-                variant_id = variant,
-                patient_id = patient,
-                code_pathogenicity = row['Pathogenicity Code'].replace("1","Benign").replace("2","Likely Benign").replace("3","VOUS").replace("4","Likely Pathogenic").replace("5","Pathogenic"),
-                codes_evidence = str(row['Evidence Codes']).replace("'",""),
-                uploaded_time = datetime.datetime.now()
-            )
-
+    )
     return render(request, 'DB/bulkinputpage.html')
 
 
