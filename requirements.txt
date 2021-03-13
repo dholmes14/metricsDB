@@ -1,0 +1,4 @@
+Django
+django-tables2
+django-crispy-forms
+django-import-export

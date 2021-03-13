@@ -1,0 +1,62 @@
+{% load static %}
+<html>
+    <head>
+        <title>VariantDB</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap and datatables CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static "DataTables/Bootstrap-4-4.1.1/css/bootstrap.min.css" %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static "DataTables/datatables.min.css" %}"/>
+
+        <!-- jQuery, bootstrap and datatables javascript - jQuery must go first! -->
+        <script type="text/javascript" src="{% static "DataTables/jQuery-3.3.1/jQuery-3.3.1.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "DataTables/datatables.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "DataTables/Bootstrap-4-4.1.1/js/bootstrap.min.js" %}"></script>
+
+
+    </head>
+    <body>
+
+      <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #40e0d0;">
+        <a class="navbar-brand" <b>VariantDB</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+       <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'Homepage' %}">Home</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'Datainputpage' %}"> Add a patient</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'Bulkinputpage' %}">Import CSV</a>
+            </li>
+          </ul>
+       </div>
+      </nav>
+      <div>
+
+      </div>
+            <div>
+
+         </div>
+       <br>
+       <br>
+            {% block content %}
+            {% endblock %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br><br><br><br><br>
+        <footer>VariantDB provides a software solution to log all classified variants within the laboratory.
+          For any troubleshooting enquiries please contact bioinformatics.team@group2.co.uk</footer>
+    </body>
+</html>

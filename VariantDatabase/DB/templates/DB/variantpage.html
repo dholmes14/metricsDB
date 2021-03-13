@@ -1,0 +1,50 @@
+{% extends 'DB/base.html' %}
+{% block content %}
+
+<div class="table-responsive">
+<table class="table table-hover">
+<thead>
+<tr><th>Genomic Coordinate</th><td>{{Variant.variant_genome}}</td></tr>
+<tr><th>Gene</th><td>{{Variant.gene}}</td></tr>
+<tr><th>Chromosome</th><td>{{Variant.chrm}}</td></tr>
+<tr><th>cDNA HGVS</th><td>{{Variant.variant_cdna}}</td></tr>
+<tr><th>Protein HGVS</th><td>{{Variant.variant_protein}}</td></tr>
+</thead>
+</table>
+</div>
+
+<div class="table-responsive">
+<table class="table table-hover">
+<thead>
+<tr>
+<th>Patient name</th>
+<th>Age</th>
+<th>Proband status</th>
+<th>Affected relatives?</th>
+<th>Stage</th>
+<th>Description</th>
+<th>Date uploaded</th>
+<th>Pathogenicity</th>
+<th>Criteria codes</th>
+</tr>
+</thead>
+<br>
+<br>
+{% for interpretation in Interpretations %}
+<tr>
+<td>{{ interpretation.patient_id.name }}</td>
+<td>{{ interpretation.patient_id.age }}</td>
+<td>{{ interpretation.patient_id.proband }}</td>
+<td>{{ interpretation.patient_id.affected_relatives }}</td>
+<td>{{ interpretation.patient_id.stage }}</td>
+<td>{{ interpretation.patient_id.description }}</td>
+<td>{{ interpretation.uploaded_time }}</td>
+<td>{{ interpretation.code_pathogenicity }}</td>
+<td>{{ interpretation.codes_evidence }}</td>
+</tr>
+</div>
+{% endfor %}
+</table>
+
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'DB/base.html' %}
+{% load crispy_forms_tags %}
+{% load render_table from django_tables2 %}
+{% block content %}
+
+<h2>Search for variants by gene</h2>
+<br>
+<p>Search for variants in a particular gene by typing the relevant gene in the search box and then click the "search for a gene" button.</p>
+
+<form class="SearchView" method="GET" action="" >
+    <input class="SearchView" type="search" name="search">
+    <button class="SearchView" type="submit"> Search for a gene </button>
+</form>
+<form class="ResetSearch" method="GET" action="" >
+    <button class="ResetSearch" type="submit"> Reset search </button>
+</form>
+
+    <div class="table-responsive">
+    <table class="table table-hover">
+		<thead>
+		    <tr>
+          <th>Gene</th>
+          <th>Variant</th>
+		      <th>cDNA HGVS</th>
+		      <th>Protein HGVS</th>
+		    </tr>
+		</thead>
+
+        {% for Variant in Variants %}
+            <tr>
+              <td>{{Variant.gene}}</td>
+              <td><a href="/variants/{{Variant.variant_id}}/">{{ Variant.variant_genome | truncatechars:20 }}</td>
+              <td>{{ Variant.variant_cdna | truncatechars:20 }}</td>
+              <td>{{ Variant.variant_protein | truncatechars:20 }}</td>
+
+            </tr>
+        {% endfor %}
+        </table>
+
+
+{% endblock %}

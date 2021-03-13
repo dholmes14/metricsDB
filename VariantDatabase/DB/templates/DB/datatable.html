@@ -1,0 +1,28 @@
+<html>
+        <head>
+        <title>Variant database</title>
+	</head>
+
+        <p>Homepage to have the main search boxes and table for variants</p>
+        {% for Variant in Variants %}
+            <div>
+                {{Variant.name}}
+                {{Variant.age}}
+                {{Variant.proband}}
+                {{Variant.affected_relatives}}
+                {{Variant.stage}}
+                {{Variant.description}}
+                {{Variant.sequencer}}
+                {{Variant.gene}}
+                {{Variant.chrm}}
+                {{Variant.variant_cdna}}
+                {{Variant.variant_protein}}
+                {{Variant.variant_genome}}
+                {{Variant.code_pathogenicity}}
+                {{Variant.codes_evidence}}
+                {{Variant.uploaded_time}}
+                
+            </div>
+        {% endfor %}
+
+	</html>
