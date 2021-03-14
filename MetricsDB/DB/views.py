@@ -107,7 +107,6 @@ def Bulkinputpage(request):
         reader = csv.DictReader(decoded_file)
         for row in reader:
             print(row)
-
             project, creation = Nextseq_Metrics.objects.get_or_create(
             Project_No = row['Project_No'],
             description= row['description'],
@@ -125,6 +124,5 @@ def Bulkinputpage(request):
             raw_demux_yield_ratio= row['raw:demux_yield_ratio'],
             Pass_fail= row['Pass/fail'],
             Notes= row['Notes']
-
     )
     return render(request, 'DB/bulkinputpage.html')

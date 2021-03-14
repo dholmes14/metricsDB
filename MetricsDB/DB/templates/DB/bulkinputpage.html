@@ -8,10 +8,14 @@
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   <input type="file" name="myfile">
-  <button type="submit">Click here to upload</button>
+  <button type="submit">Click here to upload Nextseq projects data</button>
 </form>
 
-
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="file" name="HS_metrics_file">
+  <button type="submit">Click here to upload HS metrics data</button>
+</form>
 
 
 {% endblock %}
