@@ -16,7 +16,7 @@ class Nextseq_Metrics(models.Model):
     mean_cluster_density= models.FloatField(db_column='mean_cluster_density_(k/mm2)', blank=True)
     clusters_PF= models.FloatField(db_column='percentage_clusters_PF', blank=True)
     RT_yield_GB= models.FloatField(db_column='real-time_yield_(Gb)', blank=True)
-    indexed_reads= models.FloatField(db_column='indexed_reads_PF_(M)', blank=True)
+    indexed_reads= models.FloatField(db_column='indexed_reads_PF_(M)', blank=True, null=True)
     demux_yield_GB= models.FloatField(db_column='yield_(Gb)', blank=True)
     bases_Q30= models.FloatField(db_column='percentage_bases_>Q30', blank=True)
     raw_demux_yield_ratio= models.FloatField(db_column='raw:demux_yield_ratio', blank=True)

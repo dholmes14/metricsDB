@@ -2,7 +2,7 @@ import datetime
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import InputForm
-from .models import Patient_data, Variant_data, Test_data, Interpretation_data, Nextseq_Metrics
+from .models import Patient_data, Variant_data, Test_data, Interpretation_data, Nextseq_Metrics, HS_Metrics
 from django.shortcuts import render
 from django.views.generic import ListView
 from crispy_forms.bootstrap import Field
@@ -46,8 +46,11 @@ def Variantpage(request, variant_id):
 def Projectpage(request, Project_No):
     Project = get_object_or_404(Nextseq_Metrics, Project_No=Project_No)
 
+    Linked_HS_metrics = HS_Metrics.objects.filter(sequencing_project__exact=Project_No)
+
     context = {
-    'Project': Project
+    'Project': Project,
+    'Linked_HS_metrics': Linked_HS_metrics
     }
     return render(request, 'DB/projectpage.html', context)
 
@@ -138,23 +141,62 @@ def HS_metrics_inputpage(request):
         for row in reader:
             print(row)
 
-            project, creation = Nextseq_Metrics.objects.get_or_create(
-            Project_No = row['Project_No'],
-            description= row['description'],
-            run_start_date= row['run_start_date'],
-            run_ID= row['run_ID'],
-            instrument= row['instrument'],
-            run_type= row['run_type'],
-            flowcell= row['flowcell'],
-            mean_cluster_density= row['mean_cluster_density_(k/mm2)'],
-            clusters_PF= row['percentage_clusters_PF'],
-            RT_yield_GB= row['real-time_yield_(Gb)'],
-            indexed_reads= row['indexed_reads_PF_(M)'],
-            demux_yield_GB= row['demux_yield_(Gb)'],
-            bases_Q30= row['percentage_bases_>Q30'],
-            raw_demux_yield_ratio= row['raw:demux_yield_ratio'],
-            Pass_fail= row['Pass/fail'],
-            Notes= row['Notes']
+
+            project, creation = HS_Metrics.objects.get_or_create(
+            Sample = row['SAMPLE'],
+            sample_type=row['sample type'],
+            QN_ratio=row['Q:N ratio'],
+            sequencing_project=row['SEQUENCING PROJECT(S) - orange shading = merged data'],
+            platform=row['Platform'],
+            rundate=row['DATE'],
+            RAW_NEXTSEQ_READS=row['RAW_NEXTSEQ_READS (M)'],
+            BAIT_SET=row['BAIT_SET'],
+            GENOME_SIZE=row['GENOME_SIZE'],
+            BAIT_TERRITORY=row['BAIT_TERRITORY'],
+            TARGET_TERRITORY=row['TARGET_TERRITORY'],
+            BAIT_DESIGN_EFFICIENCY=row['BAIT_DESIGN_EFFICIENCY'],
+            TOTAL_READS=row['TOTAL_READS'],
+            PF_READS=row['PF_READS'],
+            PF_UNIQUE_READS=row['PF_UNIQUE_READS'],
+            PCT_PF_READS=row['PCT_PF_READS'],
+            PCT_PF_UQ_READS=row['PCT_PF_UQ_READS'],
+            PF_UQ_READS_ALIGNED=row['PF_UQ_READS_ALIGNED'],
+            PCT_PF_UQ_READS_ALIGNED=row['PCT_PF_UQ_READS_ALIGNED'],
+            PF_BASES_ALIGNED=row['PF_BASES_ALIGNED'],
+            PF_UQ_BASES_ALIGNED=row['PF_UQ_BASES_ALIGNED'],
+            ON_BAIT_BASES=row['ON_BAIT_BASES'],
+            NEAR_BAIT_BASES=row['NEAR_BAIT_BASES'],
+            OFF_BAIT_BASES=row['OFF_BAIT_BASES'],
+            ON_TARGET_BASES=row['ON_TARGET_BASES'],
+            PCT_SELECTED_BASES=row['PCT_SELECTED_BASES (flagged @ <0.6)'],
+            PCT_OFF_BAIT=row['PCT_OFF_BAIT'],
+            ON_BAIT_VS_SELECTED=row['ON_BAIT_VS_SELECTED'],
+            MEAN_BAIT_COVERAGE=row['MEAN_BAIT_COVERAGE (flagged @ <75)'],
+            MEAN_TARGET_COVERAGE=row['MEAN_TARGET_COVERAGE'],
+            MEDIAN_TARGET_COVERAGE=row['MEDIAN_TARGET_COVERAGE'],
+            MAX_TARGET_COVERAGE=row['MAX_TARGET_COVERAGE'],
+            PCT_USABLE_BASES_ON_BAIT=row['PCT_USABLE_BASES_ON_BAIT'],
+            PCT_USABLE_BASES_ON_TARGET=row['PCT_USABLE_BASES_ON_TARGET'],
+            FOLD_ENRICHMENT=row['FOLD_ENRICHMENT'],
+            ZERO_CVG_TARGETS_PCT=row['ZERO_CVG_TARGETS_PCT'],
+            PCT_EXC_DUPE=row['PCT_EXC_DUPE'],
+            PCT_EXC_MAPQ=row['PCT_EXC_MAPQ'],
+            PCT_EXC_BASEQ=row['PCT_EXC_BASEQ'],
+            PCT_EXC_OVERLAP=row['PCT_EXC_OVERLAP'],
+            PCT_EXC_OFF_TARGET=row['PCT_EXC_OFF_TARGET'],
+            FOLD_80_BASE_PENALTY=row['FOLD_80_BASE_PENALTY (flagged @ >2)'],
+            PCT_TARGET_BASES_1X=row['PCT_TARGET_BASES_1X'],
+            PCT_TARGET_BASES_2X=row['PCT_TARGET_BASES_2X'],
+            PCT_TARGET_BASES_10X=row['PCT_TARGET_BASES_10X'],
+            PCT_TARGET_BASES_20X=row['PCT_TARGET_BASES_20X (flagged @ <0.98)'],
+            PCT_TARGET_BASES_30X=row['PCT_TARGET_BASES_30X'],
+            PCT_TARGET_BASES_40X=row['PCT_TARGET_BASES_40X'],
+            PCT_TARGET_BASES_50X=row['PCT_TARGET_BASES_50X'],
+            PCT_TARGET_BASES_100X=row['PCT_TARGET_BASES_100X'],
+            AT_DROPOUT=row['AT_DROPOUT'],
+            GC_DROPOUT=row['GC_DROPOUT'],
+            HET_SNP_SENSITIVITY=row['HET_SNP_SENSITIVITY'],
+            HET_SNP_Q=row['HET_SNP_Q']
     )
 
     return render(request, 'DB/HS_metrics_inputpage.html')
