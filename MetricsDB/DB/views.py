@@ -107,6 +107,7 @@ def Bulkinputpage(request):
         reader = csv.DictReader(decoded_file)
         for row in reader:
             print(row)
+
             project, creation = Nextseq_Metrics.objects.get_or_create(
             Project_No = row['Project_No'],
             description= row['description'],
@@ -125,4 +126,35 @@ def Bulkinputpage(request):
             Pass_fail= row['Pass/fail'],
             Notes= row['Notes']
     )
+
     return render(request, 'DB/bulkinputpage.html')
+
+def HS_metrics_inputpage(request):
+    if request.method == 'POST':
+        file = request.FILES['HS_metrics_file']
+        uploaded_file = request.POST.get('file')
+        decoded_file = file.read().decode('utf-8').splitlines()
+        reader = csv.DictReader(decoded_file)
+        for row in reader:
+            print(row)
+
+            project, creation = Nextseq_Metrics.objects.get_or_create(
+            Project_No = row['Project_No'],
+            description= row['description'],
+            run_start_date= row['run_start_date'],
+            run_ID= row['run_ID'],
+            instrument= row['instrument'],
+            run_type= row['run_type'],
+            flowcell= row['flowcell'],
+            mean_cluster_density= row['mean_cluster_density_(k/mm2)'],
+            clusters_PF= row['percentage_clusters_PF'],
+            RT_yield_GB= row['real-time_yield_(Gb)'],
+            indexed_reads= row['indexed_reads_PF_(M)'],
+            demux_yield_GB= row['demux_yield_(Gb)'],
+            bases_Q30= row['percentage_bases_>Q30'],
+            raw_demux_yield_ratio= row['raw:demux_yield_ratio'],
+            Pass_fail= row['Pass/fail'],
+            Notes= row['Notes']
+    )
+
+    return render(request, 'DB/HS_metrics_inputpage.html')
