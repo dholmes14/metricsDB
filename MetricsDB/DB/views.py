@@ -29,6 +29,21 @@ def Homepage(request):
 
     return render(request, 'DB/homepage.html', {'NextSeq_Data' : NextSeq_Data, 'search_term': search_term, 'DateSearchQuery': DateSearchQuery })
 
+def Searchsamplepage(request):
+    search_term = ''
+    DateSearchQuery = ''
+    if 'search' in request.GET:
+        search_term = request.GET['search']
+        HS_Metrics_data = HS_Metrics.objects.filter(Sample__icontains=search_term)
+    elif 'date_search' in request.GET:
+        DateSearchQuery= request.GET['date_search']
+        HS_Metrics_data = HS_Metrics.objects.filter(rundate__icontains=DateSearchQuery)
+
+    else:
+        HS_Metrics_data = HS_Metrics.objects.all()
+
+    return render(request, 'DB/searchsamplepage.html', {'HS_Metrics_data' : HS_Metrics_data, 'search_term': search_term, 'DateSearchQuery': DateSearchQuery })
+
 def Variantpage(request, variant_id):
 
     Variant = get_object_or_404(Variant_data, variant_id=variant_id)

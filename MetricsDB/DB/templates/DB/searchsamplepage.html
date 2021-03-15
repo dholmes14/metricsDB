@@ -1,0 +1,48 @@
+{% extends 'DB/base.html' %}
+{% load crispy_forms_tags %}
+{% load render_table from django_tables2 %}
+{% block content %}
+
+<h2>Search for a project by name or date</h2>
+<br>
+<p>Search for a projet name or date by typing in the search box and then click the search button.</p>
+
+<form class="SearchView" method="GET" action="" >
+    <input class="SearchView" type="search" name="search">
+    <button class="SearchView" type="submit"> Search for a sample </button>
+</form>
+<form class="ResetSearch" method="GET" action="" >
+    <button class="ResetSearch" type="submit"> Reset search </button>
+</form>
+
+<form class="DateSearchBox" method="GET" action="" >
+    <input class="DateSearchBox" type="date_search" name="date_search">
+    <button class="DateSearchBox" type="submit"> Search for a date </button>
+</form>
+<form class="ResetSearch" method="GET" action="" >
+    <button class="ResetSearch" type="submit"> Reset search </button>
+</form>
+
+
+
+    <div class="table-responsive">
+    <table class="table table-hover">
+		<thead>
+		    <tr>
+          <th>Sample name</th>
+          <th>Run date</th>
+          <th>Project</th>
+		    </tr>
+		</thead>
+
+        {% for Sample in HS_Metrics_data %}
+            <tr>
+              <td>{{Sample.Sample}}</td>
+              <td>{{Sample.rundate}}</td>
+              <td><a href="/projects/{{Sample.sequencing_project}}/">{{ Sample.sequencing_project | truncatechars:20 }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+
+
+{% endblock %}
