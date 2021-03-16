@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = str(Path(__file__).resolve().parent.parent)
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,7 +27,9 @@ SECRET_KEY = '22^4s1#*b_nq)w+iax=@mu3rdc41*89+tw78t&x(t!aqb*f4ps'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['localhost',
+                 '127.0.0.1',
+                 '192.168.103.142']
 
 
 # Application definition
@@ -82,7 +84,7 @@ WSGI_APPLICATION = 'Metrics_Database.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR / 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR , 'db.sqlite3'),
     }
 }
 
