@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'DB.apps.DbConfig',
     'django_tables2',
     'crispy_forms',
-    'import_export'
+    'import_export',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Metrics_Database.urls'
+
 
 TEMPLATES = [
     {

@@ -1,6 +1,7 @@
 {% extends 'DB/base.html' %}
 {% load crispy_forms_tags %}
 {% load render_table from django_tables2 %}
+
 {% block content %}
 
 <h2>Search for a project by name or date</h2>
@@ -9,7 +10,7 @@
 
 <form class="SearchView" method="GET" action="" >
     <input class="SearchView" type="search" name="search">
-    <button class="SearchView" type="submit"> Search for a project </button>
+    <button class="SearchView" type="submit"> Search for a project name </button>
 </form>
 <form class="ResetSearch" method="GET" action="" >
     <button class="ResetSearch" type="submit"> Reset search </button>
@@ -17,34 +18,22 @@
 
 <form class="DateSearchBox" method="GET" action="" >
     <input class="DateSearchBox" type="date_search" name="date_search">
-    <button class="DateSearchBox" type="submit"> Search for a date </button>
+    <button class="DateSearchBox" type="submit"> Search for a run start date </button>
 </form>
 <form class="ResetSearch" method="GET" action="" >
     <button class="ResetSearch" type="submit"> Reset search </button>
 </form>
 
 
-
-    <div class="table-responsive">
-    <table class="table table-hover">
-		<thead>
-		    <tr>
-          <th>Project No</th>
-          <th>Description</th>
-		      <th>Run start date</th>
-		      <th>Sequencer</th>
-		    </tr>
-		</thead>
-
-        {% for Project in NextSeq_Data %}
-            <tr>
-              <td><a href="/projects/{{Project.Project_No}}/">{{ Project.Project_No | truncatechars:20 }}</td>
-              <td>{{Project.description}}</td>
-              <td>{{Project.run_start_date}}</td>
-              <td>{{Project.instrument}}</td>
-            </tr>
-        {% endfor %}
-        </table>
-
+<!doctype html>
+<html>
+    <head>
+        <title>List of persons</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    </head>
+    <body>
+        {% render_table table %}
+    </body>
+</html>
 
 {% endblock %}

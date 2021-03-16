@@ -2,13 +2,14 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
+import django_tables2 as tables
 
 # Create your models here.
 class Nextseq_Metrics(models.Model):
     nextseq_project_id=models.AutoField(primary_key=True, null=False)
     Project_No= models.CharField(max_length=200)
     description= models.CharField(max_length=200)
-    run_start_date= models.CharField(max_length=200)
+    run_start_date= models.DateField(auto_now=False)
     run_ID= models.CharField(max_length=200)
     instrument= models.CharField(max_length=200)
     run_type= models.CharField(max_length=200)
@@ -79,8 +80,6 @@ class HS_Metrics(models.Model):
     GC_DROPOUT=models.FloatField(db_column='GC_DROPOUT')
     HET_SNP_SENSITIVITY=models.FloatField(db_column='HET_SNP_SENSITIVITY')
     HET_SNP_Q=models.FloatField(db_column='HET_SNP_Q')
-
-
 
 
 class Patient_data(models.Model):

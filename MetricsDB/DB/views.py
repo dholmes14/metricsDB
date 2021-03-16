@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import InputForm
 from .models import Patient_data, Variant_data, Test_data, Interpretation_data, Nextseq_Metrics, HS_Metrics
+from .tables import Nextseq_Metrics_Table
 from django.shortcuts import render
 from django.views.generic import ListView
 from crispy_forms.bootstrap import Field
@@ -12,22 +13,30 @@ from django.contrib.auth.models import User
 from tablib import Dataset
 from django.http import HttpResponseRedirect
 import csv
+from django_tables2 import SingleTableView
+from django_filters.views import FilterView
+from django_tables2.views import SingleTableMixin
+from django_tables2 import RequestConfig
 # Create your views here.
+
 
 def Homepage(request):
     search_term = ''
     DateSearchQuery = ''
     if 'search' in request.GET:
         search_term = request.GET['search']
-        NextSeq_Data = Nextseq_Metrics.objects.filter(Project_No__icontains=search_term)
+        queryset = Nextseq_Metrics.objects.filter(Project_No__icontains=search_term)
     elif 'date_search' in request.GET:
         DateSearchQuery= request.GET['date_search']
-        NextSeq_Data = Nextseq_Metrics.objects.filter(run_start_date__icontains=DateSearchQuery)
-
+        queryset = Nextseq_Metrics.objects.filter(run_start_date__icontains=DateSearchQuery)
     else:
-        NextSeq_Data = Nextseq_Metrics.objects.all()
+        queryset = Nextseq_Metrics.objects.all()
+    table = Nextseq_Metrics_Table(queryset)
+    table.paginate(page=request.GET.get("page", 1), per_page=15)
+    RequestConfig(request).configure(table)
+    return render(request, 'DB/homepage.html', {'table': table})
 
-    return render(request, 'DB/homepage.html', {'NextSeq_Data' : NextSeq_Data, 'search_term': search_term, 'DateSearchQuery': DateSearchQuery })
+
 
 def Searchsamplepage(request):
     search_term = ''

@@ -37,7 +37,7 @@
 
         {% for Sample in HS_Metrics_data %}
             <tr>
-              <td>{{Sample.Sample}}</td>
+              <td><a href="/projects/{{Sample.sequencing_project}}/">{{Sample.Sample}}</td>
               <td>{{Sample.rundate}}</td>
               <td><a href="/projects/{{Sample.sequencing_project}}/">{{ Sample.sequencing_project | truncatechars:20 }}</td>
             </tr>
