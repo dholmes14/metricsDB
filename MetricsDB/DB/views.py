@@ -32,8 +32,8 @@ def Homepage(request):
     else:
         queryset = Nextseq_Metrics.objects.all()
     table = Nextseq_Metrics_Table(queryset)
-    table.paginate(page=request.GET.get("page", 1), per_page=15)
     RequestConfig(request).configure(table)
+    table.paginate(page=request.GET.get("page", 1), per_page=10)
     return render(request, 'DB/homepage.html', {'table': table})
 
 
