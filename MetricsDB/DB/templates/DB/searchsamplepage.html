@@ -24,25 +24,16 @@
 </form>
 
 
-
-    <div class="table-responsive">
-    <table class="table table-hover">
-		<thead>
-		    <tr>
-          <th>Sample name</th>
-          <th>Run date</th>
-          <th>Project</th>
-		    </tr>
-		</thead>
-
-        {% for Sample in HS_Metrics_data %}
-            <tr>
-              <td><a href="/projects/{{Sample.sequencing_project}}/">{{Sample.Sample}}</td>
-              <td>{{Sample.rundate}}</td>
-              <td><a href="/projects/{{Sample.sequencing_project}}/">{{ Sample.sequencing_project | truncatechars:20 }}</td>
-            </tr>
-        {% endfor %}
-        </table>
+<!doctype html>
+<html>
+    <head>
+        <title>List of persons</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    </head>
+    <body>
+        {% render_table table %}
+    </body>
+</html>
 
 
 {% endblock %}

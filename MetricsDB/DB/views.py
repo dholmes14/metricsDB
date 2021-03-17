@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import InputForm
 from .models import Patient_data, Variant_data, Test_data, Interpretation_data, Nextseq_Metrics, HS_Metrics
-from .tables import Nextseq_Metrics_Table
+from .tables import Nextseq_Metrics_Table, HS_Metrics_Table
 from django.shortcuts import render
 from django.views.generic import ListView
 from crispy_forms.bootstrap import Field
@@ -43,15 +43,35 @@ def Searchsamplepage(request):
     DateSearchQuery = ''
     if 'search' in request.GET:
         search_term = request.GET['search']
-        HS_Metrics_data = HS_Metrics.objects.filter(Sample__icontains=search_term)
+        queryset = HS_Metrics.objects.filter(Sample__icontains=search_term)
     elif 'date_search' in request.GET:
         DateSearchQuery= request.GET['date_search']
-        HS_Metrics_data = HS_Metrics.objects.filter(rundate__icontains=DateSearchQuery)
+        queryset = HS_Metrics.objects.filter(rundate__icontains=DateSearchQuery)
 
     else:
-        HS_Metrics_data = HS_Metrics.objects.all()
+        queryset = HS_Metrics.objects.all()
 
-    return render(request, 'DB/searchsamplepage.html', {'HS_Metrics_data' : HS_Metrics_data, 'search_term': search_term, 'DateSearchQuery': DateSearchQuery })
+    table = HS_Metrics_Table(queryset)
+    RequestConfig(request).configure(table)
+    table.paginate(page=request.GET.get("page", 1), per_page=10)
+    return render(request, 'DB/searchsamplepage.html', {'table': table})
+    #return render(request, 'DB/searchsamplepage.html', {'HS_Metrics_data' : HS_Metrics_data, 'search_term': search_term, 'DateSearchQuery': DateSearchQuery })
+
+
+
+def Projectpage(request, Project_No):
+    Project = get_object_or_404(Nextseq_Metrics, Project_No=Project_No)
+
+    Linked_HS_metrics = HS_Metrics.objects.filter(sequencing_project__exact=Project_No)
+
+    context = {
+    'Project': Project,
+    'Linked_HS_metrics': Linked_HS_metrics
+    }
+    return render(request, 'DB/projectpage.html', context)
+    #return render(request, 'DB/projectpage.html', {'table': table})
+
+
 
 def Variantpage(request, variant_id):
 
@@ -66,19 +86,6 @@ def Variantpage(request, variant_id):
     }
 
     return render(request, 'DB/variantpage.html', context)
-
-def Projectpage(request, Project_No):
-    Project = get_object_or_404(Nextseq_Metrics, Project_No=Project_No)
-
-    Linked_HS_metrics = HS_Metrics.objects.filter(sequencing_project__exact=Project_No)
-
-    context = {
-    'Project': Project,
-    'Linked_HS_metrics': Linked_HS_metrics
-    }
-    return render(request, 'DB/projectpage.html', context)
-
-
 
 def Datainputpage(request):
 
