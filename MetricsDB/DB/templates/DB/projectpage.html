@@ -4,7 +4,8 @@ z
 {% render_table table %}
 {% block content %}
 
-
+<p><b>Nextseq_metrics</b></p>
+<br>
 
 <div class="table-responsive">
 <table class="table table-hover">
@@ -29,6 +30,8 @@ z
 </table>
 </div>
 
+<br>
+<p style="color:blue"><b><ins>MultiQC Report</ins></b></p>
 <!doctype html>
 <html>
     <head>
@@ -40,11 +43,8 @@ z
     </body>
 </html>
 
+
 <br>
-<br>
-
-
-
 
 <div id="container" style="width: 75%;">
     <canvas id="bar-chart"></canvas>
@@ -106,13 +106,6 @@ z
           }],
           drawTime: "afterDraw" // (default)
       }
-
-
-
-
-
-
-
       }
     };
 
