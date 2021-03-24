@@ -1,8 +1,7 @@
 import datetime
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import InputForm
-from .models import Patient_data, Variant_data, Test_data, Interpretation_data, Nextseq_Metrics, HS_Metrics
+from .models import Nextseq_Metrics, HS_Metrics
 from .tables import Nextseq_Metrics_Table, HS_Metrics_Table
 from django.shortcuts import render
 from django.views.generic import ListView
@@ -17,6 +16,11 @@ from django_tables2 import SingleTableView
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from django_tables2 import RequestConfig
+from plotly.offline import plot
+from plotly.graph_objs import Scatter
+from django.core import serializers
+from django.http import JsonResponse
+from django.db.models import Sum
 # Create your views here.
 
 
@@ -60,15 +64,28 @@ def Searchsamplepage(request):
 
 def Projectpage(request, Project_No):
     Project = get_object_or_404(Nextseq_Metrics, Project_No=Project_No)
-
     Linked_HS_metrics = HS_Metrics.objects.filter(sequencing_project__exact=Project_No)
+    table = HS_Metrics_Table(Linked_HS_metrics)
+    RequestConfig(request).configure(table)
+    table.paginate(page=request.GET.get("page", 1))
 
-    context = {
-    'Project': Project,
-    'Linked_HS_metrics': Linked_HS_metrics
-    }
-    return render(request, 'DB/projectpage.html', context)
-    #return render(request, 'DB/projectpage.html', {'table': table})
+
+    Sample = []
+    Percentage_20X_coverage = []
+    Fold_80_Base_penalty = []
+    mean_bait_coverage = []
+
+    Linked_sample = HS_Metrics.objects.filter(sequencing_project__exact=Project_No)
+    for sample in Linked_sample:
+        Sample.append(sample.Sample)
+        Percentage_20X_coverage.append(sample.PCT_TARGET_BASES_20X)
+        Fold_80_Base_penalty.append(sample.FOLD_80_BASE_PENALTY)
+        mean_bait_coverage.append(sample.MEAN_BAIT_COVERAGE)
+
+
+
+    return render(request, 'DB/projectpage.html', {'table': table, 'Project': Project, 'Sample': Sample, 'Percentage_20X_coverage': Percentage_20X_coverage,
+                                                    'Fold_80_Base_penalty': Fold_80_Base_penalty, 'mean_bait_coverage': mean_bait_coverage })
 
 
 def Bulkinputpage(request):
