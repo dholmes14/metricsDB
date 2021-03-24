@@ -58,7 +58,6 @@ def Searchsamplepage(request):
     #return render(request, 'DB/searchsamplepage.html', {'HS_Metrics_data' : HS_Metrics_data, 'search_term': search_term, 'DateSearchQuery': DateSearchQuery })
 
 
-
 def Projectpage(request, Project_No):
     Project = get_object_or_404(Nextseq_Metrics, Project_No=Project_No)
 
@@ -71,67 +70,6 @@ def Projectpage(request, Project_No):
     return render(request, 'DB/projectpage.html', context)
     #return render(request, 'DB/projectpage.html', {'table': table})
 
-
-
-def Variantpage(request, variant_id):
-
-    Variant = get_object_or_404(Variant_data, variant_id=variant_id)
-
-    Interpretations = Interpretation_data.objects.filter(variant_id__exact=variant_id)
-
-    context = {
-
-    'Variant': Variant,
-    'Interpretations' : Interpretations,
-    }
-
-    return render(request, 'DB/variantpage.html', context)
-
-def Datainputpage(request):
-
-
-    if request.method == 'POST':
-
-        form = InputForm(request.POST)
-
-        if form.is_valid():
-
-            patient, creation = Patient_data.objects.get_or_create(
-                name = form.cleaned_data['name'],
-                age = form.cleaned_data['age'],
-                proband = form.cleaned_data['proband'],
-                stage = form.cleaned_data['stage'],
-                description = form.cleaned_data['description']
-            )
-
-            variant, creation = Variant_data.objects.get_or_create(
-                gene = form.cleaned_data['gene'],
-                chrm = form.cleaned_data['chrm'],
-                variant_cdna = form.cleaned_data['variant_cdna'],
-                variant_protein = form.cleaned_data['variant_protein'],
-                variant_genome = form.cleaned_data['variant_genome']
-            )
-
-            test, creation = Test_data.objects.get_or_create(
-                patient_id = patient,
-                sequencer = form.cleaned_data['sequencer'],
-                variant_id = variant,
-                uploaded_time = datetime.datetime.now()
-            )
-
-            interpretation, creation = Interpretation_data.objects.get_or_create(
-                variant_id = variant,
-                patient_id = patient,
-                code_pathogenicity = form.cleaned_data['code_pathogenicity'],
-                codes_evidence = str(form.cleaned_data['codes_evidence']).replace("'",""),
-                uploaded_time = datetime.datetime.now()
-            )
-
-            return redirect('Variantpage', variant_id=variant.variant_id)
-    else:
-       form = InputForm()
-
-    return render(request, 'DB/datainputpage.html', {'form' : form})
 
 def Bulkinputpage(request):
     if request.method == 'POST':
