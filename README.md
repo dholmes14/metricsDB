@@ -1,1 +1,1 @@
-# IT project in Django
+ExMex: Exeter Metrics database
